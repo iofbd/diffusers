@@ -18,7 +18,6 @@ import argparse
 import logging
 import math
 import os
-import random
 from pathlib import Path
 from typing import Optional
 
@@ -45,6 +44,7 @@ from diffusers.models.cross_attention import LoRACrossAttnProcessor
 from diffusers.optimization import get_scheduler
 from diffusers.utils import check_min_version, is_wandb_available
 from diffusers.utils.import_utils import is_xformers_available
+import secrets
 
 
 # Will error if the minimal version of diffusers is not installed. Remove at your own risks.
@@ -582,7 +582,7 @@ def main():
                 captions.append(caption)
             elif isinstance(caption, (list, np.ndarray)):
                 # take a random caption if there are multiple
-                captions.append(random.choice(caption) if is_train else caption[0])
+                captions.append(secrets.choice(caption) if is_train else caption[0])
             else:
                 raise ValueError(
                     f"Caption column `{caption_column}` should contain either strings or lists of strings."

@@ -1,6 +1,5 @@
 import inspect
 import os
-import random
 import re
 from dataclasses import dataclass
 from typing import Callable, Dict, List, Optional, Union
@@ -15,6 +14,7 @@ from diffusers.pipelines.stable_diffusion.pipeline_stable_diffusion import Stabl
 from diffusers.pipelines.stable_diffusion.safety_checker import StableDiffusionSafetyChecker
 from diffusers.schedulers import DDIMScheduler, LMSDiscreteScheduler, PNDMScheduler
 from diffusers.utils import deprecate, logging
+import secrets
 
 
 logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
@@ -52,7 +52,7 @@ def replace_prompt_with_wildcards(
 
     for m in global_re_wildcard.finditer(new_prompt):
         wildcard_value = m.group()
-        replace_value = random.choice(wildcard_option_dict[wildcard_value.strip("__")])
+        replace_value = secrets.choice(wildcard_option_dict[wildcard_value.strip("__")])
         new_prompt = new_prompt.replace(wildcard_value, replace_value, 1)
 
     return new_prompt

@@ -1,12 +1,12 @@
 import copy
 import os
-import random
 from typing import Any, Dict, Iterable, Optional, Union
 
 import numpy as np
 import torch
 
 from .utils import deprecate
+import secrets
 
 
 def enable_full_determinism(seed: int):
@@ -35,7 +35,7 @@ def set_seed(seed: int):
     Helper function for reproducible behavior to set the seed in `random`, `numpy`, `torch`.
         seed (`int`): The seed to set.
     """
-    random.seed(seed)
+    secrets.SystemRandom().seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
