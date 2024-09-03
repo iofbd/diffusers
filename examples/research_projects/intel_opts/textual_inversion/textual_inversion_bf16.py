@@ -2,7 +2,6 @@ import argparse
 import itertools
 import math
 import os
-import random
 from pathlib import Path
 from typing import Optional
 
@@ -29,6 +28,7 @@ from diffusers import AutoencoderKL, DDPMScheduler, PNDMScheduler, StableDiffusi
 from diffusers.optimization import get_scheduler
 from diffusers.pipelines.stable_diffusion import StableDiffusionSafetyChecker
 from diffusers.utils import check_min_version
+import secrets
 
 
 if version.parse(version.parse(PIL.__version__).base_version) >= version.parse("9.1.0"):
@@ -321,7 +321,7 @@ class TextualInversionDataset(Dataset):
             image = image.convert("RGB")
 
         placeholder_string = self.placeholder_token
-        text = random.choice(self.templates).format(placeholder_string)
+        text = secrets.choice(self.templates).format(placeholder_string)
 
         example["input_ids"] = self.tokenizer(
             text,

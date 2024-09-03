@@ -17,7 +17,6 @@ import argparse
 import logging
 import math
 import os
-import random
 import warnings
 from pathlib import Path
 from typing import Optional
@@ -53,6 +52,7 @@ from diffusers import (
 from diffusers.optimization import get_scheduler
 from diffusers.utils import check_min_version, is_wandb_available
 from diffusers.utils.import_utils import is_xformers_available
+import secrets
 
 
 if is_wandb_available():
@@ -484,7 +484,7 @@ class TextualInversionDataset(Dataset):
             image = image.convert("RGB")
 
         placeholder_string = self.placeholder_token
-        text = random.choice(self.templates).format(placeholder_string)
+        text = secrets.choice(self.templates).format(placeholder_string)
 
         example["input_ids"] = self.tokenizer(
             text,
