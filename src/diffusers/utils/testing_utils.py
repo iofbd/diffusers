@@ -1,7 +1,6 @@
 import inspect
 import logging
 import os
-import random
 import re
 import unittest
 import urllib.parse
@@ -18,9 +17,10 @@ from packaging import version
 
 from .import_utils import is_flax_available, is_onnx_available, is_torch_available
 from .logging import get_logger
+import secrets
 
 
-global_rng = random.Random()
+global_rng = secrets.SystemRandom().Random()
 
 logger = get_logger(__name__)
 

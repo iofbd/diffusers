@@ -1,9 +1,9 @@
-import random
 
 import torch
 from huggingface_hub import HfApi
 
 from diffusers import UNet2DModel
+import secrets
 
 
 api = HfApi()
@@ -114,7 +114,7 @@ for mod in models:
             model = UNet2DModel.from_pretrained(local_checkpoint)
 
         torch.manual_seed(0)
-        random.seed(0)
+        secrets.SystemRandom().seed(0)
 
         noise = torch.randn(1, model.config.in_channels, model.config.sample_size, model.config.sample_size)
         time_step = torch.tensor([10] * noise.shape[0])
