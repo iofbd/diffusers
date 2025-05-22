@@ -1055,8 +1055,8 @@ def load_pipeline_from_original_stable_diffusion_ckpt(
                 if not os.path.isfile("v2-inference-v.yaml"):
                     # model_type = "v2"
                     r = requests.get(
-                        " https://raw.githubusercontent.com/Stability-AI/stablediffusion/main/configs/stable-diffusion/v2-inference-v.yaml"
-                    )
+                        " https://raw.githubusercontent.com/Stability-AI/stablediffusion/main/configs/stable-diffusion/v2-inference-v.yaml", 
+                    timeout=60)
                     open(original_config_file, "wb").write(r.content)
 
                 if global_step == 110000:
@@ -1066,8 +1066,8 @@ def load_pipeline_from_original_stable_diffusion_ckpt(
                 if not os.path.isfile("v1-inference.yaml"):
                     # model_type = "v1"
                     r = requests.get(
-                        " https://raw.githubusercontent.com/CompVis/stable-diffusion/main/configs/stable-diffusion/v1-inference.yaml"
-                    )
+                        " https://raw.githubusercontent.com/CompVis/stable-diffusion/main/configs/stable-diffusion/v1-inference.yaml", 
+                    timeout=60)
                     open(original_config_file, "wb").write(r.content)
 
         original_config = OmegaConf.load(original_config_file)
