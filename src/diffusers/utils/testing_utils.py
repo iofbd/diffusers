@@ -13,11 +13,11 @@ from typing import Optional, Union
 import numpy as np
 import PIL.Image
 import PIL.ImageOps
-import requests
 from packaging import version
 
 from .import_utils import is_flax_available, is_onnx_available, is_torch_available
 from .logging import get_logger
+from security import safe_requests
 
 
 global_rng = random.Random()
@@ -189,7 +189,7 @@ def load_numpy(arry: Union[str, np.ndarray], local_path: Optional[str] = None) -
             # local_path can be passed to correct images of tests
             return os.path.join(local_path, "/".join([arry.split("/")[-5], arry.split("/")[-2], arry.split("/")[-1]]))
         elif arry.startswith("http://") or arry.startswith("https://"):
-            response = requests.get(arry)
+            response = safe_requests.get(arry)
             response.raise_for_status()
             arry = np.load(BytesIO(response.content))
         elif os.path.isfile(arry):
@@ -210,7 +210,7 @@ def load_numpy(arry: Union[str, np.ndarray], local_path: Optional[str] = None) -
 
 
 def load_pt(url: str):
-    response = requests.get(url)
+    response = safe_requests.get(url)
     response.raise_for_status()
     arry = torch.load(BytesIO(response.content))
     return arry
@@ -227,7 +227,7 @@ def load_image(image: Union[str, PIL.Image.Image]) -> PIL.Image.Image:
     """
     if isinstance(image, str):
         if image.startswith("http://") or image.startswith("https://"):
-            image = PIL.Image.open(requests.get(image, stream=True).raw)
+            image = PIL.Image.open(safe_requests.get(image, stream=True).raw)
         elif os.path.isfile(image):
             image = PIL.Image.open(image)
         else:
